@@ -6,8 +6,10 @@ import (
 )
 
 func main() {
-	engine.Run(engine.Request{
+	result := engine.Request{
 		URL:       "http://www.zhenai.com/zhenghun",
 		ParseFunc: parser.ParseCityList,
-	})
+	}
+	//fmt.Printf("%s", result.ParseFunc)
+	engine.Run(result)
 }
