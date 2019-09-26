@@ -6,20 +6,26 @@ import (
 )
 
 func Run(seeds ...Request) {
-	var request []Request
+	var requests []Request
 
 	for _, r := range seeds {
-		request = append(request, r)
+		requests = append(requests, r)
 	}
 
-	for len(request) > 0 {
-		r := request[0]
-		request = request[1:]
+	for len(requests) > 0 {
+		r := requests[0]
+		requests = requests[1:]
+		log.Printf("Fetching %s", r.URL)
 		body, err := fetcher.Fetche(r.URL)
 		if err != nil {
 			log.Printf("Fetcher:error fecher url %s: %v", r.URL, err)
 			continue
 		}
 		parseResult := r.ParseFunc(body)
+		requests = append(requests, parseResult.Requests...)
+
+		for _, item := range parseResult.Items {
+			log.Printf("Got Item %v", item)
+		}
 	}
 }
