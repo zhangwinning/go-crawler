@@ -7,7 +7,12 @@ import (
 )
 
 func Fetcher(url string) ([]byte, error) {
-	resp, err := http.Get(url)
+
+	client := &http.Client{}
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Set("user-agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36")
+
+	resp, err := client.Do(req)
 
 	if err != nil {
 		return nil, err
